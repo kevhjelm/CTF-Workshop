@@ -29,7 +29,7 @@
         });
 
         function submitFlag(username, flag) {
-            fetch('http://localhost:3000/submit-flag', {
+            fetch('https://dry-scrubland-90422-a1e12a27055a.herokuapp.com/submit-flag', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -56,7 +56,7 @@
         }
 
         function updateAllUsersScoreboard() {
-            fetch('http://localhost:3000/scores')
+            fetch('https://dry-scrubland-90422-a1e12a27055a.herokuapp.com/scores')
                 .then(response => response.json())
                 .then(scores => {
                     const scoreboardElement = document.getElementById('allUsersScoreboard');
