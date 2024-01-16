@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Flag Scoreboard</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Flag Scoreboard</h1>
+        <form id="flagForm">
+            <input type="text" id="username" placeholder="Username" required>
+            <input type="text" id="flag" placeholder="Flag" required>
+            <button type="submit">Submit Flag</button>
+        </form>
+        <div id="allUsersScoreboard">
+            <!-- All users' scores will be displayed here -->
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('flagForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const flag = document.getElementById('flag').value;
+            submitFlag(username, flag);
+        });
+
+        function submitFlag(username, flag) {
+            fetch('http://localhost:3000/submit-flag', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username,
+                        flag
+                    })
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Flag submission failed: ' + response.statusText);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    alert(data.message);
+                    updateAllUsersScoreboard();
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    alert('An error occurred. Please try again later.');
+                });
+        }
+
+        function updateAllUsersScoreboard() {
+            fetch('http://localhost:3000/scores')
+                .then(response => response.json())
+                .then(scores => {
+                    const scoreboardElement = document.getElementById('allUsersScoreboard');
+                    let scoreboardHTML = '<h2>All Users Scoreboard</h2>';
+
+                    const sortedScores = Object.keys(scores).map(username => ({
+                        username,
+                        score: scores[username]
+                    })).sort((a, b) => b.score - a.score);
+
+                    sortedScores.forEach((user, index) => {
+                        let medal = '';
+                        if (index === 0) {
+
+                            medal = '🥇';
+                        } else if (index === 1) {
+                            medal = '🥈';
+                        } else if (index === 2) {
+                            medal = '🥉';
+                        }
+                        scoreboardHTML += `<div class="${index < 3 ? 'top-three' : ''}">${medal} ${user.username}: ${user.score} points</div>`;
+                    });
+
+                    scoreboardElement.innerHTML = scoreboardHTML;
+                })
+                .catch((error) => {
+                    console.error('Error fetching scores:', error);
+                });
+        }
+
+        document.addEventListener('DOMContentLoaded', updateAllUsersScoreboard);
+    </script>
+</body>
+
+</html>
