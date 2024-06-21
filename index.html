@@ -29,7 +29,7 @@
         });
 
         function submitFlag(username, flag) {
-            fetch('https://ctf-backend-2-685942907843.herokuapp.com/submit-flag', {
+            fetch('https://ctf-backend-2-154b3aee57f1.herokuapp.com/submit-flag', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -56,7 +56,7 @@
         }
 
         function updateAllUsersScoreboard() {
-            fetch('https://ctf-backend-2-685942907843.herokuapp.com/scores')
+            fetch('https://ctf-backend-2-154b3aee57f1.herokuapp.com/scores')
                 .then(response => response.json())
                 .then(scores => {
                     const scoreboardElement = document.getElementById('allUsersScoreboard');
