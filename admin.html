@@ -24,7 +24,7 @@
             const password = prompt('Enter the password (hint: whooopsi):');
 
             if (password === 'WSpass') {
-                fetch('https://ctf-backend-2-685942907843.herokuapp.com/reset', {
+                fetch('https://ctf-backend-2-154b3aee57f1.herokuapp.com/reset', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -54,7 +54,7 @@
 
         // Function to update the scoreboard by fetching scores from the backend
         function updateAllUsersScoreboard() {
-            fetch('https://ctf-backend-2-685942907843.herokuapp.com/scores', {
+            fetch('https://ctf-backend-2-154b3aee57f1.herokuapp.com/scores', {
                     headers: {
                         'Content-Type': 'application/json'
                             // If your server requires authentication, add your auth headers here
